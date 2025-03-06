@@ -1,28 +1,40 @@
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
 
-local speed = 50 
-local normalSpeed = humanoid.WalkSpeed
+local speed = 50 -- Velocidade alterada
+local normalSpeed = 16
 local isSpeedActive = false
 
-local function applySpeed()
+local function applySpeed(humanoid)
     while isSpeedActive do
         humanoid.WalkSpeed = speed
-        task.wait(0.1) -- Mantém a velocidade sem sobrecarregar
+        task.wait(0.1)
     end
 end
 
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.V then -- Tecla para ativar/desativar
-        isSpeedActive = not isSpeedActive
-        if isSpeedActive then
-            applySpeed()
-        else
-            humanoid.WalkSpeed = normalSpeed
-        end
+local function onCharacterAdded(character)
+    local humanoid = character:WaitForChild("Humanoid")
+
+    if isSpeedActive then
+        task.wait(1) -- Pequeno delay para garantir que o jogo não sobrescreva
+        applySpeed(humanoid)
     end
-end)
+
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        if input.KeyCode == Enum.KeyCode.V then
+            isSpeedActive = not isSpeedActive
+            if isSpeedActive then
+                applySpeed(humanoid)
+            else
+                humanoid.WalkSpeed = normalSpeed
+            end
+        end
+    end)
+end
+
+player.CharacterAdded:Connect(onCharacterAdded)
+if player.Character then
+    onCharacterAdded(player.Character)
+end
