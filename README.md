@@ -46,7 +46,7 @@ local function onCharacterAdded(character)
     local humanoid = character:WaitForChild("Humanoid")
 
     task.spawn(function()
-        applySpeed(humanoid) -- Loop infinito para manter a velocidade
+        applySpeed(humanoid)
     end)
 end
 
