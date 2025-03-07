@@ -13,7 +13,7 @@ local function createButton()
 
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0, 150, 0, 50)
-    button.Position = UDim2.new(0.05, 0, 0.85, 0) -- Ajuste a posição do botão
+    button.Position = UDim2.new(0.05, 0, 0.85, 0)
     button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
     button.TextScaled = true
     button.Text = "Speed OFF"
