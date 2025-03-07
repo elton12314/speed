@@ -50,5 +50,5 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
-task.spawn(updateSpeed) 
+task.spawn(updateSpeed) -- Mantém o speed ativo o tempo todo
 createButton()
