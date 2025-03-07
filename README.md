@@ -4,7 +4,7 @@ local player = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
 local speed = 50
-local normalSpeed = 18
+local normalSpeed = 22
 local isSpeedActive = false
 local button
 local dragging, dragInput, dragStart, startPos
