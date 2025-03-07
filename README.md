@@ -6,11 +6,17 @@ local StarterGui = game:GetService("StarterGui")
 local speed = 50
 local normalSpeed = 16
 local isSpeedActive = false
-local button -- Variável para o botão
+local button
 
-local function updateSpeed(humanoid)
+local function updateSpeed()
     while true do
-        humanoid.WalkSpeed = isSpeedActive and speed or normalSpeed
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = isSpeedActive and speed or normalSpeed
+            end
+        end
         task.wait(0.1)
     end
 end
@@ -38,23 +44,11 @@ local function createButton()
     button.MouseButton1Click:Connect(toggleSpeed)
 end
 
-local function onCharacterAdded(character)
-    local humanoid = character:WaitForChild("Humanoid")
-    task.spawn(function()
-        updateSpeed(humanoid)
-    end)
-end
-
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.V then
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.V then
         toggleSpeed()
     end
 end)
 
-player.CharacterAdded:Connect(onCharacterAdded)
-if player.Character then
-    onCharacterAdded(player.Character)
-end
-
+task.spawn(updateSpeed) 
 createButton()
